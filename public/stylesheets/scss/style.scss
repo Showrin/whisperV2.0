@@ -1,0 +1,800 @@
+// ######### Variables ##########
+$primary-color: #FD8187;
+$secondary-color: #E66AAE;
+$black-color: #515151;
+$gray-color: #AAAAAA;
+$lighter-gray-color: #F2F2F2;
+$lightest-gray-color: #E5E5E5;
+$very-lightgray-color: rgba(0,0,0,.05);
+$green-color: #20BF6B;
+$lighter-green-color: #26DE81;   
+$red-color: #FC5F67;
+$lighter-red-color: #FFE9EA;
+$orange-color: #FE9B75;
+
+$shadow: 0px 3px 6px rgba(0, 0, 0, .16);
+
+
+// ######### Custom Fonts ##########
+@font-face {
+    src: url('../../fonts/Muli.ttf');
+    font-style: normal;
+    font-family: 'muli-regular';
+}
+
+@font-face {
+    src: url('../../fonts/Muli-Bold.ttf');
+    font-style: normal;
+    font-family: 'muli-bold';
+}
+
+// ######### Global Config ##########
+body {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    font-size: 1vw;
+    font-family: "muli-regular";
+    color: $black-color;
+    z-index: -10000;
+}
+
+button {
+    color: $primary-color;
+    padding: .8vw 5vw .8vw  5vw;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-top: 2.5vw;
+    margin-bottom: .5vw;
+    box-shadow: $shadow;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+}
+button:hover {
+    transform: scale(1.05);
+}
+button:active {
+    transform: translateY(1px);
+}
+
+.label-btn {
+    color: $primary-color;
+    padding: .8vw 5vw .8vw  5vw;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-top: 2.5vw;
+    margin-bottom: .5vw;
+    box-shadow: $shadow;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+}
+.label-btn:hover {
+    transform: scale(1.05);
+}
+.label-btn:active {
+    transform: translateY(1px);
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
+}
+
+h1 {
+    margin: 0;
+}
+
+.divider {
+    width: 100%;
+    background-color: $lightest-gray-color;
+    padding-bottom: 1px;
+}
+
+input {
+    outline: none;
+    border: 2px solid #fff;
+    border-radius: 6px;
+    background-color: transparent;
+    box-sizing: border-box;
+    width: 100%;
+    height: 2.6vw;
+    padding: 1vw;
+    color: #fff;
+    font-size: 1vw;
+    transition: all .2s ease-in-out;
+}
+
+input.solid-input {
+    background-color: $very-lightgray-color;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    height: 3vw;
+    padding: 1vw;
+    color: $black-color;
+    font-size: 1vw;
+}
+
+label {
+    font-size: 1.1vw;
+    margin-bottom: .5vw;
+    margin-right: auto;
+    margin-top: .5vw;
+}
+
+.form-error-msg {
+    display: block;
+    font-size: .7vw;
+    min-height: 1.1vw;
+    margin-right: auto;
+    font-style: italic;
+    transition: all .2s ease-in-out;
+}
+
+//profile pic input config
+.login-form_img {
+    width: 6vw;
+    height: 6vw;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: $shadow;
+    margin-top: 1.5vw;
+
+    input {
+        display: none;
+    }
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    #img_overlay {
+        position: absolute;
+        border-radius: 50%;
+        margin-top: 0;
+        margin-bottom: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        background-color: #000000;
+        transition: .2s ease-in-out;
+        text-align: center;
+        cursor: pointer;
+
+        img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2vw;
+            height: auto;
+            z-index: 10;
+        }
+    }
+}
+.login-form_img:hover {
+    
+    #img_overlay {
+        opacity: .65;
+    }
+}
+
+.icon-container {
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+.icon-container:hover {
+    transform: scale(1.1) !important;
+    background-color: $lighter-red-color !important;
+}
+.icon-container_icon {
+    height: 1.2vw;
+    width: 1.2vw;
+}
+
+.dimmer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #000;
+    opacity: 0;
+    z-index: 150000;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal {
+    position: absolute;
+    top: 35%;
+    left: 35%;
+    width: 30%;
+    height: auto;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: #fff;
+    z-index: 200000;
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: .5vw 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+}
+
+.modal_title {
+    font-family: 'muli-bold';
+    font-size: 1.6vw;
+    margin-bottom: .5vw;
+    align-self: flex-start;
+}
+
+.modal_text {
+    font-family: 'muli-bold';
+    font-size: 1vw;
+    margin: 3vw 0;
+}
+
+.modal_btn--close {
+    padding: .5vw 2vw;
+    font-size: .8vw;
+    color: #fff;
+    background-color: $primary-color;
+    margin-top: 0;
+}
+
+.modal_title--red {
+    color: $red-color;
+}
+
+.modal_btn--red {
+    background-color: $red-color;
+}
+
+
+// ######### signin and signup page config ##########
+.bg-container_img {
+    position: fixed;
+    width: 100%;
+    min-height: 100vh;
+    object-fit: cover;
+}
+
+.bg-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(230,106,174,0.9) 0%, rgba(253,129,135,0.9) 100%);
+    display: flex;
+    flex-direction: row;
+}
+
+.bg-container_logo-div, .bg-container_login-div {
+    display: flex;
+    box-sizing: border-box;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+}
+
+#js_login_form {
+    label {
+        margin-top: 1.5vw;
+    }
+}
+
+.bg-container_login-div {
+    flex-direction: column;
+    color: #fff;
+    padding: 0px 10% 0px 10%;
+}
+
+.bg-container_white-logo {
+    width: 60%;
+    height: auto;;
+}
+
+.form-navigate-msg {
+    font-size: .8vw;
+
+    .form-navigate-msg_link {
+        font-size: 1vw;
+        font-family: 'muli-bold';
+    }
+}
+
+
+// ######### index page navbar config ##########
+.navbar {
+    width: 100%;
+    height: 4.5vw;
+    background-color: #fff;
+    box-shadow: $shadow;
+    display: flex;
+    position: absolute;
+    z-index: 100;
+}
+
+.navbar_userlist-portion,
+.navbar_chatbox-portion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 1.5vw;
+}
+
+.navbar_userlist-portion {
+    width: 22%;
+    height: inherit;
+    border-right: 1px solid $lightest-gray-color;
+}
+
+.navbar_chatbox-portion {
+    height: inherit;
+    width: 78%;
+    justify-content: flex-end;
+}
+
+.navbar_logo {
+    width: 35%;
+    height: auto;
+    margin-right: auto;
+}
+
+.left-gap {
+    margin-left: 1vw;
+}
+
+.navbar_chatbox-portion_user-details {
+    margin-right: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .user_info-container {
+        flex-direction: column;
+        color: $black-color;
+        width: 100%;
+        padding-left: 1vw;
+
+        .user_name {
+            font-family: 'muli-bold';
+            padding-bottom: .2vw;
+            text-transform: capitalize;
+        }
+
+        .is-active_status {
+            color: $gray-color;
+            font-size: .8vw;
+        }
+    }
+}
+
+
+// ######### index page userlist config ##########
+.userlist {
+    height: auto;
+    width: 22%;
+    background-color: #fff;
+    position: absolute;
+    top: 4.5vw;
+    left: 0;
+    bottom: 0;
+    padding: 1vw .82vw 0 .82vw;
+    border-right: 1px solid $lightest-gray-color; 
+    overflow: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: auto;
+    height: 5vw;
+    background-color: #fff;
+    margin-bottom: .2vw;
+    padding: .5vw;
+    box-sizing: border-box;
+    border-radius: 6px;
+    font-size: .8vw;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+}
+.user:active {
+    transform: translateY(2px);
+}
+
+.user.active {
+    background-color: $very-lightgray-color;
+}
+
+.user_pic-container {
+    height: 3vw;
+    width: 3vw;
+    img {
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+
+.user_info-container {
+    height: 3vw;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: .5vw;
+    justify-content: center;
+}
+
+.user_name,
+.user_msg {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5vw;
+    padding-right: .5vw;
+    box-sizing: border-box;
+    text-transform: capitalize;
+}
+
+.user_name {
+    color: $black-color;
+}
+
+.user_msg {
+    color: $gray-color;
+}
+
+.not_read_msg {
+    color: $black-color;
+    font-family: 'muli-bold';
+}
+
+.is-active_indicator {
+    display: inline-block;
+    background-color: $lighter-green-color;
+    height: .6vw;
+    width: .6vw;
+    border-radius: 50%;
+    margin-left: 1vw;
+}
+
+.user_confirmation-time-container {
+    display: flex;
+    width: 3.8vw;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.seen_indicator, 
+.not-seen_indicator {
+    height: .9vw;
+    width: .9vw;
+}
+
+.msg_time {
+    color: $gray-color;
+    font-size: .7vw;
+}
+
+.circle {
+    display: inline-block;
+    width: .4vw;
+    height: .4vw;
+    border-radius: 50%;
+    background-color: $gray-color;
+    margin-right: .2vw;
+}
+
+
+// ######### index page chatbox config ##########
+.chatbox {
+    height: auto;
+    background-color: #fff;
+    position: absolute;
+    top: 4.5vw;
+    bottom: 3.8vw;
+    right: 0;
+    left: 24%;
+    padding: 1vw .82vw 0 .82vw;
+    border-right: 1px solid $lightest-gray-color; 
+    overflow: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: -10;
+    font-size: .9vw;
+    transition: all .2s ease-in-out;
+}
+
+.chatbox_msgbox {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: .2vw 0px;
+    transition: all .3s ease-out;
+}
+.chatbox_msgbox:hover {
+    .frnds_msg-icon-container,
+    .own_msg-icon-container {
+        transform: scale(1);
+    }
+
+    .icon-container:hover {
+        transform: scale(1.01);
+    }
+}
+.own_msgbox {
+    flex-direction: row-reverse;
+    
+    .seen_indicator,
+    .not-seen_indicator {
+        margin-left: 1vw;
+    }
+
+    // for aligning seen/not seen indicator
+    span {
+        align-self: flex-end;
+    }
+}
+.frnds_msgbox {
+    flex-direction: row;
+}
+
+.chatbox_msg {
+    padding: .5vw 1.5vw;
+    max-width: 60%;
+}
+.own_msg {
+    background-color: $primary-color;
+    color: #fff;
+    margin-left: 2vw;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    transition: all .2s ease-in-out;
+}
+.file_msg {
+    padding: 3vw 6vw;
+    font-size: 1vw;
+    border-radius: 10px !important;
+    background-color: transparent !important;
+    border: 1px solid $lighter-gray-color;
+    color: $primary-color;
+    max-width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center center;
+}
+
+.file_download_icon {
+    margin-top: 2vw;
+    
+    img {
+        width: 2.5vw;
+        height: 2.5vw;
+    }
+}
+
+.frnds_msg {
+    background-color: $lighter-gray-color;
+    color: $black-color;
+    margin-right: 2vw;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.chatbox_msg-time {
+    align-self: flex-end;
+    font-size: .7vw;
+    color: $gray-color;
+}
+
+.frnds_msg-icon-container,
+.own_msg-icon-container {
+    transform: scale(0);
+}
+.frnds_msg-icon-container {
+    margin-left: 3vw;
+}
+.own_msg-icon-container {
+    margin-right: 3vw;
+}
+
+.chatbox_sendmsg-form {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 24%;
+    padding: .2vw .82vw .2vw .82vw;
+    height: 3.5vw;
+    border-right: 1px solid $lightest-gray-color; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #fff;
+    transition: all .2s ease-in-out;
+}
+
+.chatbox_sendmsg-input {
+    width: 90% !important;
+    font-size: .9vw !important;
+    border-radius: 30px;
+    height: 2.5vw !important;
+}
+
+#js_file_share_input {
+    height: auto;
+    background-color: $primary-color;
+}
+
+
+// ######### index page info config ##########
+.infobox {
+    height: auto;
+    background-color: #fff;
+    position: absolute;
+    top: 4.5vw;
+    bottom: 0;
+    right: 0;
+    width: 22.3%;
+    padding: 1vw .82vw 0 .82vw;
+    overflow: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: -15;
+    font-size: .8vw;
+    transition: all .2s ease-in-out;
+
+    .user_pic-container {
+        width: 8vw;
+        height: 8vw;
+        margin-top: 3vw;
+
+        img {
+            width: inherit;
+            height: inherit;
+        }
+    }
+
+    .user_name {
+        height: 3vw;
+        text-align: center;
+        font-family: 'muli-bold';
+        font-size: 1.5vw;
+        line-height: initial !important;
+        padding-top: 1vw;
+        padding-bottom: 4.5vw;
+        text-transform: capitalize;
+    }
+}
+
+.infobox_title {
+    font-family: 'muli-bold';
+    font-size: 1.1vw;
+    color: $gray-color;
+    width: 100%;
+    padding: .5vw;
+}
+
+.infobox_option {
+    font-size: .9vw;
+    color: $black-color;
+    width: 100%;
+    padding: .5vw;
+    box-sizing: border-box;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    transition: all .22s ease-in-out;
+
+    .icon-container {
+        margin-left: auto;
+    }
+}
+.infobox_option:hover {
+    background-color: $very-lightgray-color;
+}
+.infobox_option:active {
+    transform: scale(.99)
+}
+
+.top-margin {
+    margin-top: 3vw;
+}
+
+.link {
+    background-color: $very-lightgray-color;
+    padding: 1vw .2vw;
+    color: $primary-color;
+    margin-bottom: 1vw;
+
+    span {
+        text-align: center;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+
+// ######### file uploading progress configuration #############
+.progress_bar_wrapper {
+    width: 100%;
+    background-color: $lighter-gray-color;
+    height: 3px;
+    margin-top: 3vw;
+    border-radius: 100px;
+    position: relative;
+}
+
+.progress_bar {
+    border-radius: 100px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background-color: $primary-color;
+    transition: all .2s ease-out;
+}
+
+
+// ######### Scrollbar modification #############
+/* width */
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(81,81,81,.3); 
+    border-radius: 15px;
+}

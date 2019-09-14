@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+    .dimmer
+
+    .modal
+        .modal_title File Upload 
+        .divider
+        .modal_text
+            form#js_fileShare_form
+                input#js_file_share_input(type="file")
+
+                input#js_file_share_btn.modal_btn--close.modal_btn--red(type="submit", value="Upload")
+
+    include navbar.pug
+
+    include userlist.pug
+
+    include chatbox.pug
+
+    include info.pug
+
+block scripts
+    script(src="/socket.io-file-client.js")
+    script(src="../javascripts/script.js")
+    script(src="../javascripts/indexIO.js")
+    script(src="../javascripts/moment.min.js")
+    
+
+

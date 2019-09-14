@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="shortcut icon" type="images/x-icon" href="/images/favicon/favicon.ico">
+    <link rel="stylesheet" href="/stylesheets/css/style.css">
+    <script src="/javascripts/jquery-3.4.1.min.js"></script>
+    <script src="/javascripts/aes.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div class="dimmer"></div>
+    <div class="modal">
+      <div class="modal_title">File Upload </div>
+      <div class="divider"></div>
+      <div class="modal_text">
+        <form id="js_fileShare_form">
+          <input id="js_file_share_input" type="file">
+          <input class="modal_btn--close modal_btn--red" id="js_file_share_btn" type="submit" value="Upload">
+        </form>
+      </div>
+    </div>
+    <div class="navbar">
+      <div class="navbar_userlist-portion"><img class="navbar_logo" src="/images/icons/logo-color.svg" alt="Whisper">
+        <div class="icon-container"><img class="icon-container_icon" src="/images/icons/gear.svg"></div>
+      </div>
+      <div class="navbar_chatbox-portion">
+        <div class="navbar_chatbox-portion_user-details">
+          <div class="user_pic-container"><img id="js_navbar_profile_pic" src="" alt=""></div>
+          <div class="user_info-container"><span class="user_name" id="js_navbar_profile_name"></span><span class="is-active_status" id="js_navbar_active_status"></span></div>
+        </div>
+        <div class="icon-container left-gap"><img class="icon-container_icon" src="/images/icons/call.svg"></div>
+        <div class="icon-container left-gap"><img class="icon-container_icon" src="/images/icons/video.svg"></div>
+        <div class="icon-container left-gap" id="js_user_info_btn" data-active="0"><img class="icon-container_icon" src="/images/icons/info.svg"></div>
+        <div class="icon-container left-gap" id="js_logout_btn"><img class="icon-container_icon" src="/images/icons/power.svg"></div>
+      </div>
+    </div>
+    <div class="userlist" id="userlist"></div>
+    <div class="chatbox" id="js_chatbox"></div>
+    <form class="chatbox_sendmsg-form" id="js_chatbox_sendmsg-form">
+      <div class="icon-container"><img class="icon-container_icon chatbox_remove-icon" id="js_chatbox_sendfile-btn" src="/images/icons/folder-open-solid.svg"></div>
+      <input class="chatbox_sendmsg-input solid-input" id="js_sendmsg-input" type="text" name="msg">
+      <div class="icon-container"><img class="icon-container_icon chatbox_remove-icon" id="js_chatbox_sendmsg-btn" src="/images/icons/paper-plane.svg"></div>
+    </form>
+    <div class="infobox">
+      <div class="user_pic-container"><img id="js_info_pic" src="" alt=""></div><span class="user_name" id="js_info_name"></span>
+      <div class="divider"></div>
+      <div class="infobox_title">Privacy</div>
+      <div class="infobox_option"> <span>Block Person</span>
+        <div class="icon-container"><img class="icon-container_icon" src="/images/icons/do-not-disturb-rounded-sign.svg"></div>
+      </div>
+      <div class="infobox_option"> <span>Clear Chat</span>
+        <div class="icon-container"><img class="icon-container_icon" src="/images/icons/garbage.svg"></div>
+      </div>
+      <div class="divider top-margin"></div>
+      <div class="infobox_title">Links</div><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a><a class="infobox_option link" href=""> <span>Link</span></a>
+    </div>
+    <script src="/socket.io-file-client.js"></script>
+    <script src="../javascripts/script.js"></script>
+    <script src="../javascripts/indexIO.js"></script>
+    <script src="../javascripts/moment.min.js"></script>
+  </body>
+</html>

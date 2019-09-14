@@ -1,0 +1,23 @@
+.navbar(id=userId)
+    .navbar_userlist-portion
+        img.navbar_logo(src="/images/icons/logo-color.svg", alt="Whisper")
+        
+        .icon-container
+            img.icon-container_icon(src="/images/icons/gear.svg")
+
+    .navbar_chatbox-portion
+        .navbar_chatbox-portion_user-details
+            .user_pic-container
+                img#js_navbar_profile_pic(src="", alt="")
+            .user_info-container
+                span#js_navbar_profile_name.user_name
+                span#js_navbar_active_status.is-active_status
+
+        .icon-container.left-gap
+            img.icon-container_icon(src="/images/icons/call.svg")
+        .icon-container.left-gap
+            img.icon-container_icon(src="/images/icons/video.svg")
+        .icon-container.left-gap#js_user_info_btn(data-active=0)
+            img.icon-container_icon(src="/images/icons/info.svg")
+        .icon-container.left-gap#js_logout_btn
+            img.icon-container_icon(src="/images/icons/power.svg")
