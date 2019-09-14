@@ -85,7 +85,7 @@ function initialUpdateUserlist(userList) {
             lastMsgTime = "";
         }
 
-        console.log(userList)
+        // console.log(userList)
 
         //initial userlist update
         let userDiv = `<div class='user ${activeTabClass}' data-userid="${user.userId}" data-name="${user.name.toLowerCase()}" data-is-active="${user.isActive}"><div class='user_pic-container'><img src='/images/propics/${user.userId}.jpg'></div><div class="user_info-container"><span class="user_name ${isReadClass}">${name.toLowerCase()}<span class="${isActiveClass}"></span></span><span class="user_msg ${isReadClass}">${message}</span></div><div class="user_confirmation-time-container"><span><img class="${isSeenClass}" ${lastMsgTimeStyle} src="/images/icons/${isSeenImgSrc}"></span><span class="msg_time"> <span class="circle" ${lastMsgTimeStyle}></span>${lastMsgTime}</span></div>`;
@@ -135,18 +135,18 @@ var form = $('#js_fileShare_form');
 var sentMessage, messageId, fileName, fileNameArray;
  
 uploader.on('start', function(fileInfo) {
-    console.log('Start uploading', fileInfo);
+    // console.log('Start uploading', fileInfo);
 });
 
 uploader.on('stream', function(fileInfo) {
-    console.log('Streaming... sent ' + fileInfo.sent + ' bytes.');
+    // console.log('Streaming... sent ' + fileInfo.sent + ' bytes.');
     let uploadPercentage = (fileInfo.sent / fileInfo.size) * 100;
 
     $('#js_file_upload_progress_bar').css('width', `${uploadPercentage}%`);
 });
 
 uploader.on('complete', function(fileInfo) {
-    console.log('Upload Complete', fileInfo);
+    // console.log('Upload Complete', fileInfo);
 
     let recieverId = $('.navbar_chatbox-portion_user-details').attr('id');
     let selfUserId = $('.navbar').attr('id');
@@ -434,9 +434,14 @@ sendMsgForm.submit(function(e) {
     let sentMessage = $('#js_sendmsg-input').val();
     let messageType = 'message';
 
+    // TODO: sendTime was initialized for result analysis purpose
+    var sendTime = Date.now();
+
     if(sentMessage != "") {
         sentMessage = doEncryption(sentMessage);
-        socket.emit('saveMessageInServerDB', {selfUserId, recieverId, messageType, sentMessage});
+
+        // TODO: sendTime was transmitted for result analysis purpose
+        socket.emit('saveMessageInServerDB', {selfUserId, recieverId, messageType, sentMessage, sendTime});
     }
 
     $('#js_sendmsg-input').val('');
@@ -448,9 +453,19 @@ socket.on('newMessageFromOtherToSender', function(messageInfo) {
     if(userNavId == messageInfo.senderId) {
         
         loadMessage(messageInfo);
-        socket.emit('seenMessagesUpadate', {senderId: messageInfo.senderId, recieverId: messageInfo.recieverId});
+        
+        // TODO: sendTime was transmitted for result analysis purpose
+        socket.emit('seenMessagesUpadate', {senderId: messageInfo.senderId, recieverId: messageInfo.recieverId, sendTime: messageInfo.sendTime});
         socket.emit('chatBoxSeenMessageUpdate', messageInfo.senderId);
     }
+});
+
+// TODO: sendTime was transmitted for result analysis purpose
+// for result analysis purpose
+socket.on('finalRtt', function(ackInfo) {
+    var rtt = Date.now() - ackInfo;
+    console.log("(sender-reciever-sender via server): " + rtt + " ms\n\n");
+    socket.emit('storeRtt', rtt);
 });
 
 socket.on('confirmationOfsavingMessageToSender', function(messageInfo) {

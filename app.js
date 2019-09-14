@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const session = require('express-session');
 const SocketIOFile = require('socket.io-file');
+var excelFileCreator = require('excel4node'); //for exporting excel file for rtt analysis
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -45,11 +46,18 @@ app.get('/download/:file(*)',(req, res) => {
     if(userSession.userId) {
         var file = req.params.file;
         var fileLocation = path.join('./public/sharedFiles',file);
-        console.log(fileLocation);
+        // console.log(fileLocation);
         res.download(fileLocation, file);
     } else {
         return res.redirect('/signin');
     } 
+});
+
+// TODO: this block is for result analysis purpose
+// define a route to download a file 
+app.get('/rttAnalysis.xlsx', function(req, res){
+    const file = `${__dirname}/public/researchfile/rttAnalysis.xlsx`;
+    res.download(file); // Set disposition and send it.
 });
 
 
@@ -252,6 +260,9 @@ io.on('connection', function(socket) {
     socket.on('saveMessageInServerDB', function(messagePacket) {
         var newMessage = new Message({senderId: messagePacket.selfUserId, recieverId: messagePacket.recieverId, message: messagePacket.sentMessage, messageType: messagePacket.messageType, isSeen: false, deletedForSender: false, deletedForReciever: false});
 
+        // TODO: sendTime was initialized for result analysis purpose
+        var sendTime = messagePacket.sendTime;
+
         newMessage.save().then(function() {
             
             Message.find({senderId: messagePacket.selfUserId, recieverId: messagePacket.recieverId}).then(function(messages) {
@@ -266,13 +277,14 @@ io.on('connection', function(socket) {
                 deletedForReciever = theMessage.deletedForReciever;
                 messageTime = theMessage.messageTime;
                 
+                // TODO: sendTime was transmitted for result analysis purpose
                 if(userSockets[recieverId]) {
-                    userSockets[recieverId].emit('newMessageFromOtherToSender', {_Id: messageId, senderId: senderId, recieverId: recieverId, message: messageToSee, messageType: messageType, isSeen: isSeen, deletedForSender: deletedForSender, deletedForReciever: deletedForReciever, messageTime: messageTime});
+                    userSockets[recieverId].emit('newMessageFromOtherToSender', {_Id: messageId, senderId: senderId, recieverId: recieverId, message: messageToSee, messageType: messageType, isSeen: isSeen, deletedForSender: deletedForSender, deletedForReciever: deletedForReciever, messageTime: messageTime, sendTime: sendTime});
                 }
 
                 socket.emit('confirmationOfsavingMessageToSender', {_Id: messageId, senderId: senderId, recieverId: recieverId, message: messageToSee, messageType: messageType, isSeen: isSeen, deletedForSender: deletedForSender, deletedForReciever: deletedForReciever, messageTime: messageTime});
 
-                console.log(messages[messages.length-1]);
+                // console.log(messages[messages.length-1]);
 
                 var userListForSender = [];
                 User.find({}, async function(err, users) {
@@ -365,12 +377,17 @@ io.on('connection', function(socket) {
 
     socket.on('chatBoxUpdateOnUserChange', function(ids) {
         Message.find({senderId: {$in: [ids.userId, ids.recieverId]}, recieverId: {$in: [ids.userId, ids.recieverId]}}).then(function(messages) {
-            console.log(messages)
+            // console.log(messages)
             socket.emit('chatboxMessagesOnUserChange', messages);
         })
     })
 
     socket.on('seenMessagesUpadate', function(ids) {
+
+        // TODO: sendTime was transmitted for result analysis purpose
+        if (userSockets[ids.senderId]) {
+            userSockets[ids.senderId].emit('finalRtt', ids.sendTime);
+        }
 
         Message.updateMany({senderId: ids.senderId, recieverId: ids.recieverId, isSeen: false},{$set:{isSeen: true}})
         .then((updatedMessages)=>{
@@ -449,6 +466,45 @@ io.on('connection', function(socket) {
         })
         console.log('disconnected');
         
+    })
+
+    // TODO: this block is for result analysis purpose
+    // for result analysis purpose
+    global.excelRow = 2;
+    global.workBook = new excelFileCreator.Workbook();
+    global.workSheet1 = workBook.addWorksheet('Sheet 1');
+    var style = workBook.createStyle({
+        font : {
+            color: '#000000',
+            size: 12
+        },
+        alignment: { 
+            horizontal: 'right'
+        },
+        numberFormat: '##0.00; (##0.00); -'
+    });
+    var titleStyle = workBook.createStyle({
+        font : {
+            color: '#FF0000',
+            size: 14,
+            bold: true
+        },
+        alignment: { 
+            horizontal: 'right'
+        },
+        numberFormat: '##0.00; (##0.00); -'
+    });
+    workSheet1.cell(1,1).string("RTT").style(titleStyle);
+
+    // TODO: this block is for result analysis purpose
+    socket.on('storeRtt', function(rtt) {
+        if(rtt < 10000) {
+            workSheet1.cell(excelRow,1).number(rtt).style(style);
+            workBook.write(`${__dirname}/public/researchfile/rttAnalysis.xlsx`, function () {
+                excelRow = excelRow + 1;
+                console.log(rtt, excelRow);
+            });
+        }
     })
 })
 
